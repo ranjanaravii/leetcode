@@ -33,4 +33,11 @@ public class BoatToSavePeople {
         }
         return false;
     }
+
+    public static void main(String[] args) {
+        BoatToSavePeople boatToSavePeople = new BoatToSavePeople();
+        int[] people = { 3, 2, 2, 1 };
+        int limit = 3;
+        System.out.println(boatToSavePeople.numRescueBoats(people, limit));
+    }
 }
