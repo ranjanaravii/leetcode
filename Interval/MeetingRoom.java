@@ -38,6 +38,24 @@ public class MeetingRoom {
         return minHeap.size();
     }
 
+     public boolean lemonadeChange(int[] bills) {
+        int five = 0, ten = 0, twenty = 0;
+        for (int bill : bills) {
+            if (bill == 5) five++;
+            else if (bill == 10) {
+                five--; 
+                ten++;
+            }
+            else if (ten > 0) {
+                ten--; 
+                five--;
+            }
+            else five -= 3;
+            if (five < 0) return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         MeetingRoom meetingRoom = new MeetingRoom();
         List<Interval> intervals = List.of(new Interval(0, 40), new Interval(5, 10), new Interval(15, 20));
