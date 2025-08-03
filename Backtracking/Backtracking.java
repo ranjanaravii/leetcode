@@ -5,6 +5,70 @@ import java.util.List;
 
 public class Backtracking {
 
+    /******************************************************************************************************* */
+
+    /**
+     * Word count II
+     * Given a string s and a dictionary of strings wordDict, add spaces in s to
+     * construct a sentence where each word is a valid dictionary word. Return all
+     * such possible sentences in any order.
+     * 
+     * Note that the same word in the dictionary may be reused multiple times in the
+     * segmentation.
+     * 
+     * 
+     * 
+     * Example 1:
+     * 
+     * Input: s = "catsanddog", wordDict = ["cat","cats","and","sand","dog"]
+     * Output: ["cats and dog","cat sand dog"]
+     * Example 2:
+     * 
+     * Input: s = "pineapplepenapple", wordDict =
+     * ["apple","pen","applepen","pine","pineapple"]
+     * Output: ["pine apple pen apple","pineapple pen apple","pine applepen apple"]
+     * Explanation: Note that you are allowed to reuse a dictionary word.
+     * Example 3:
+     * 
+     * Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+     * Output: []
+     * 
+     * 
+     * Constraints:
+     * 
+     * 1 <= s.length <= 20
+     * 1 <= wordDict.length <= 1000
+     * 1 <= wordDict[i].length <= 10
+     * s and wordDict[i] consist of only lowercase English letters.
+     * All the strings of wordDict are unique.
+     * Input is generated in a way that the length of the answer doesn't exceed 105.
+     */
+
+    List<String> ans = new ArrayList<>();
+
+    private void backtrack(int idx, String s, List<String> wordDict, StringBuilder temp) {
+        if (idx == s.length()) {
+            ans.add(temp.toString().trim());
+            return;
+        }
+        for (int j = idx; j < s.length(); j++) {
+            String word = s.substring(idx, j + 1);
+            if (wordDict.contains(word)) {
+                int lenBefore = temp.length();
+                temp.append(word).append(" ");
+                backtrack(j + 1, s, wordDict, temp);
+                temp.setLength(lenBefore);
+            }
+        }
+    }
+
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        backtrack(0, s, wordDict, new StringBuilder());
+        return ans;
+    }
+
+    /******************************************************************************************************* */
+
     List<List<Integer>> res = new ArrayList<>();
 
     void backtrack(int start, int n, int k, List<Integer> temp) {
@@ -21,21 +85,24 @@ public class Backtracking {
 
     /**
      * Combinations:
-     * Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n].
-
-        You may return the answer in any order.
-
-        Example 1:
-
-        Input: n = 4, k = 2
-        Output: [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
-        Explanation: There are 4 choose 2 = 6 total combinations.
-        Note that combinations are unordered, i.e., [1,2] and [2,1] are considered to be the same combination.
-        Example 2:
-
-        Input: n = 1, k = 1
-        Output: [[1]]
-        Explanation: There is 1 choose 1 = 1 total combination.
+     * Given two integers n and k, return all possible combinations of k numbers
+     * chosen from the range [1, n].
+     * 
+     * You may return the answer in any order.
+     * 
+     * Example 1:
+     * 
+     * Input: n = 4, k = 2
+     * Output: [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+     * Explanation: There are 4 choose 2 = 6 total combinations.
+     * Note that combinations are unordered, i.e., [1,2] and [2,1] are considered to
+     * be the same combination.
+     * Example 2:
+     * 
+     * Input: n = 1, k = 1
+     * Output: [[1]]
+     * Explanation: There is 1 choose 1 = 1 total combination.
+     * 
      * @param n
      * @param k
      * @return
@@ -46,6 +113,7 @@ public class Backtracking {
         return res;
     }
 
+    /******************************************************************************************************* */
 
     static int CountPath(int r, int c, boolean[][] board) {
         if (r == board.length - 1 && c == board[0].length - 1) {
@@ -67,6 +135,7 @@ public class Backtracking {
         return count;
     }
 
+    /******************************************************************************************************* */
 
     public static void main(String[] args) {
         boolean[][] board = new boolean[4][4];
