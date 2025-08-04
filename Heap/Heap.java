@@ -8,10 +8,12 @@ public class Heap {
     /***************************************************************************************************************/
     /**
      * Top-K Largest Elements in an Array
-     * Heaps are useful for solving problems that require finding the "top k" elements in an array
-     * Given an integer array nums, return the 3 largest elements in the array in any order.
+     * Heaps are useful for solving problems that require finding the "top k"
+     * elements in an array
+     * Given an integer array nums, return the 3 largest elements in the array in
+     * any order.
      * Input: nums = [9, 3, 7, 1, -2, 6, 8]
-        Output: [8, 7, 9]
+     * Output: [8, 7, 9]
      */
     public int[] topKLargest(int[] nums, int k) {
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
@@ -24,6 +26,7 @@ public class Heap {
         }
         return result;
     }
+
     /***************************************************************************************************************/
 
     public int findKthLargest(int[] nums, int k) {
@@ -36,6 +39,27 @@ public class Heap {
             k -= 1;
         }
         return pq.peek();
+    }
+
+    /**
+     *  This way, you maintain the k largest elements seen so far,
+     *  and the smallest element in this heap is the k-th largest. 
+     *  This reduces space complexity from O(n) to O(k) and can improve performance for large arrays.
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int kthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for (int num : nums) {
+            if (minHeap.size() < k) {
+                minHeap.offer(num);
+            } else if (num > minHeap.peek()) {
+                minHeap.poll();
+                minHeap.offer(num);
+            }
+        }
+        return minHeap.peek();
     }
 
     public static void main(String[] args) {
