@@ -1,6 +1,7 @@
 package Heap;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Heap {
@@ -29,6 +30,36 @@ public class Heap {
 
     /***************************************************************************************************************/
 
+    /**
+     * K Closest Points to the Origin
+     * Given an array of points where points[i] = [xi, yi] represents a point on
+     * the X-Y plane and an integer k, return the k closest points to the origin
+     * (0, 0).
+     * Input: points = [[1,3],[-2,2]], k = 1
+     * Output: [[-2,2]]
+     * 
+     * @param points
+     * @param k
+     * @return
+     */
+    public int[][] kClosest(int[][] points, int k) {
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparing(a -> a[0]));
+
+        for (int[] p : points) {
+            int dist = p[0] * p[0] + p[1] * p[1];
+            minHeap.offer(new int[] { dist, p[0], p[1] });
+        }
+        int[][] res = new int[k][2];
+
+        for (int i = 0; i < k; i++) {
+            int[] p = minHeap.poll();
+            res[i] = new int[] { p[1], p[2] };
+        }
+        return res;
+    }
+
+    /***************************************************************************************************************/
+
     public int findKthLargest(int[] nums, int k) {
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         for (int num : nums) {
@@ -42,9 +73,11 @@ public class Heap {
     }
 
     /**
-     *  This way, you maintain the k largest elements seen so far,
-     *  and the smallest element in this heap is the k-th largest. 
-     *  This reduces space complexity from O(n) to O(k) and can improve performance for large arrays.
+     * This way, you maintain the k largest elements seen so far,
+     * and the smallest element in this heap is the k-th largest.
+     * This reduces space complexity from O(n) to O(k) and can improve performance
+     * for large arrays.
+     * 
      * @param nums
      * @param k
      * @return
