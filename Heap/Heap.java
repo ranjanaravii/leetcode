@@ -1,10 +1,31 @@
 package Heap;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class Heap {
+
+    /***************************************************************************************************************/
+    public List<Integer> findClosestElements(int[] nums, int k, int target) {
+        int left = 0;
+        int right = nums.length - k;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (target - nums[mid] > nums[mid + k] - target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        for (int i = left; i < left + k; i++) {
+            result.add(nums[i]);
+        }
+        return result;
+    }
 
     /***************************************************************************************************************/
     /**
