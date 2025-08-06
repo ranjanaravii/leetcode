@@ -1,10 +1,33 @@
 package Heap;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.TreeMap;
 
 public class Heap {
+
+    /***************************************************************************************************************/
+    public List<Integer> findClosestElements(int[] nums, int k, int target) {
+        int left = 0;
+        int right = nums.length - k;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (target - nums[mid] > nums[mid + k] - target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        for (int i = left; i < left + k; i++) {
+            result.add(nums[i]);
+        }
+        return result;
+    }
 
     /***************************************************************************************************************/
     /**
@@ -56,6 +79,30 @@ public class Heap {
             res[i] = new int[] { p[1], p[2] };
         }
         return res;
+    }
+
+    public int[][] kClosest2nd(int[][] points, int k) {
+
+        Map<Integer, List<int[]>> map = new TreeMap<>();
+        for (int[] point : points) {
+            int x = point[0], y = point[1];
+            int distance = x * x + y * y;
+            map.putIfAbsent(distance, new ArrayList<>());
+            map.get(distance).add(point);
+        }
+
+        int[][] result = new int[k][2];
+        int index = 0;
+        for (Map.Entry<Integer, List<int[]>> entry : map.entrySet()) {
+            for (int[] point : entry.getValue()) {
+                if (index == k)
+                    return result;
+                result[index][0] = point[0];
+                result[index][1] = point[1];
+                index++;
+            }
+        }
+        return result;
     }
 
     /***************************************************************************************************************/
