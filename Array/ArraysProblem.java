@@ -31,4 +31,26 @@ public class ArraysProblem {
         }
         return result;
     }
+
+    public int areaOfMaxDiagonal(int[][] dimensions) {
+        int maxArea = 0;
+        double maxDiagonal = 0.0;
+
+        for (int[] rect : dimensions) {
+            int length = rect[0];
+            int width = rect[1];
+
+            double diagonal = Math.sqrt(length * length + width * width);
+            int area = length * width;
+
+            if (diagonal > maxDiagonal) {
+                maxDiagonal = diagonal;
+                maxArea = area;
+            } else if (diagonal == maxDiagonal && area > maxArea) {
+                maxArea = area;
+            }
+        }
+
+        return maxArea;
+    }
 }
