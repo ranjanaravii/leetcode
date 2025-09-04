@@ -131,6 +131,9 @@ public class Heap {
      */
     public int kthLargest(int[] nums, int k) {
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        if (nums.length == 0) {
+            return -1;
+        }
         for (int num : nums) {
             if (minHeap.size() < k) {
                 minHeap.offer(num);
