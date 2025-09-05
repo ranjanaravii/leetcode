@@ -1,12 +1,6 @@
 package Heap;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Heap {
 
@@ -131,6 +125,9 @@ public class Heap {
      */
     public int kthLargest(int[] nums, int k) {
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        if (nums.length == 0) {
+            return -1;
+        }
         for (int num : nums) {
             if (minHeap.size() < k) {
                 minHeap.offer(num);
@@ -140,6 +137,68 @@ public class Heap {
             }
         }
         return minHeap.peek();
+    }
+
+    /**
+     *
+     * @param nums
+     * @return
+     */
+
+    public String[] findRelativeRanks(int[] nums) {
+        int[][] pair = new int[nums.length][2];
+
+        for (int i = 0; i < nums.length; i++) {
+            pair[i][0] = nums[i];
+            pair[i][1] = i;
+        }
+
+        Arrays.sort(pair, (a, b) -> (b[0] - a[0]));
+
+        String[] result = new String[nums.length];
+
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0) {
+                result[pair[i][1]] = "Gold Medal";
+            }
+            else if (i == 1) {
+                result[pair[i][1]] = "Silver Medal";
+            }
+            else if (i == 2) {
+                result[pair[i][1]] = "Bronze Medal";
+            }
+            else {
+                result[pair[i][1]] = (i + 1) + "";
+            }
+        }
+
+        return result;
+    }
+
+    public String[] findRelativeRanksPriorityQueue(int[] nums) {
+        int n = nums.length;
+        String[] result = new String[n];
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+
+        for (int i = 0; i < n; i++) {
+            pq.offer(new int[]{nums[i], i});
+        }
+
+        int rank = 1;
+        while (!pq.isEmpty()) {
+            int[] top = pq.poll();
+            int idx = top[1];
+
+            if (rank == 1) result[idx] = "Gold Medal";
+            else if (rank == 2) result[idx] = "Silver Medal";
+            else if (rank == 3) result[idx] = "Bronze Medal";
+            else result[idx] = String.valueOf(rank);
+
+            rank++;
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {
