@@ -201,6 +201,27 @@ public class Heap {
         return result;
     }
 
+    /*************************************************************************************************/
+    public int[] kWeakestRows(int[][] mat, int k) {
+        PriorityQueue<int[]> heap = new PriorityQueue<>(
+                (a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
+
+        for (int i = 0; i < mat.length; i++) {
+            int soldiers = 0;
+            for (int j = 0; j < mat[0].length; j++) {
+                if (mat[i][j] == 1) {
+                    soldiers += 1;
+                }
+            }
+            heap.add(new int[]{soldiers, i});
+        }
+        int[] res = new int[k];
+        for (int i = 0; i < k; i++) {
+            res[i] = heap.poll()[1];
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         Heap heap = new Heap();
         int[] nums = { 3, 2, 1, 5, 6, 4 };
