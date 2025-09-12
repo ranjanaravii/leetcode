@@ -26,6 +26,16 @@ public class StringQuestions {
         return result.toString();
     }
 
+
+    /**********************************************************************************************/
+
+    public boolean doesAliceWin(String s) {
+        long count = s.chars()
+                .filter(c -> "aeiou".indexOf(c) != -1)
+                .count();
+        return count > 0;
+    }
+
     public static void main(String[] args) {
         System.out.println(sortVowels("lEetcOde"));
     }
