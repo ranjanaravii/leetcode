@@ -1,8 +1,6 @@
 package String;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class StringQuestions {
     public static String sortVowels(String s) {
@@ -34,6 +32,22 @@ public class StringQuestions {
                 .filter(c -> "aeiou".indexOf(c) != -1)
                 .count();
         return count > 0;
+    }
+
+    /**********************************************************************************************/
+
+    public int maxFreqSum(String s) {
+        Map<Character, Integer> freq = new HashMap<>();
+        int maxFreqVowel = 0, maxfreqConsonants = 0;
+        for (char ch : s.toCharArray()) {
+            freq.put(ch, freq.getOrDefault(ch, 0) + 1);
+            if ("aeiou".indexOf(ch) != -1) {
+                maxfreqConsonants = Math.max(maxfreqConsonants, freq.get(ch));
+            } else {
+                maxFreqVowel = Math.max(maxFreqVowel, freq.get(ch));
+            }
+        }
+        return maxFreqVowel + maxfreqConsonants;
     }
 
     public static void main(String[] args) {
