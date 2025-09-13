@@ -50,6 +50,30 @@ public class StringQuestions {
         return maxFreqVowel + maxfreqConsonants;
     }
 
+    public int maxFreqSum2(String s) {
+        int[] freq = new int[26];
+        boolean[] isVowel = new boolean[26];
+        for (char v : "aeiou".toCharArray()) {
+            isVowel[v - 'a'] = true;
+        }
+
+        int maxFreqVowel = 0, maxFreqConsonant = 0;
+
+        for (char ch : s.toCharArray()) {
+            int idx = ch - 'a';
+            freq[idx]++;
+
+            if (isVowel[idx]) {
+                maxFreqVowel = Math.max(maxFreqVowel, freq[idx]);
+            } else {
+                maxFreqConsonant = Math.max(maxFreqConsonant, freq[idx]);
+            }
+        }
+
+        return maxFreqVowel + maxFreqConsonant;
+    }
+
+
     public static void main(String[] args) {
         System.out.println(sortVowels("lEetcOde"));
     }
