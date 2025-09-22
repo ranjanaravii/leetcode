@@ -224,7 +224,7 @@ public class Heap {
 
     /*************************************************************************************************/
 
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists2(ListNode[] lists) {
         List<Integer> nodes = new ArrayList<>();
         for (ListNode lst : lists) {
             while (lst != null) {
@@ -242,6 +242,52 @@ public class Heap {
         }
         return res.next;
     }
+
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) {
+            return null;
+        }
+        return mergeSort(lists, 0, lists.length - 1);
+    }
+
+    private ListNode mergeSort(ListNode[] lists, int left, int right) {
+        if (left > right) {
+            return null;
+        }
+        if (left == right) {
+            return lists[left];
+        }
+
+        int mid = left + (right - left) / 2;
+        ListNode leftNode = mergeSort(lists, left, mid);
+        ListNode rightNode = mergeSort(lists, mid + 1, right);
+        return mergeLinkedList(leftNode, rightNode);
+    }
+
+    private ListNode mergeLinkedList(ListNode leftNode, ListNode rightNode) {
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+
+        while (leftNode != null && rightNode != null) {
+            if (leftNode.val <= rightNode.val) {
+                current.next = leftNode;
+                leftNode = leftNode.next;
+            } else {
+                current.next = rightNode;
+                rightNode = rightNode.next;
+            }
+            current = current.next;
+        }
+
+        if (leftNode != null) {
+            current.next = leftNode;
+        } else {
+            current.next = rightNode;
+        }
+
+        return dummy.next;
+    }
+
 
     public static void main(String[] args) {
         Heap heap = new Heap();
