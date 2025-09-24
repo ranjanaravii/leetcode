@@ -289,6 +289,40 @@ public class Heap {
     }
 
 
+    public List<Integer> mergeKLists(List<List<Integer>> lists) {
+        if (lists == null || lists.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        boolean hasNonEmpty = lists.stream().anyMatch(lst -> lst != null && !lst.isEmpty());
+        if (!hasNonEmpty) {
+            return new ArrayList<>();
+        }
+
+        PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+        for (int i = 0; i < lists.size(); i++) {
+            if (lists.get(i) != null && !lists.get(i).isEmpty()) {
+                heap.offer(new int[]{lists.get(i).get(0), i, 0});
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+
+        while (!heap.isEmpty()) {
+            int[] current = heap.poll();
+            int value = current[0], listIdx = current[1], elemIdx = current[2];
+            result.add(value);
+
+            if (elemIdx + 1 < lists.get(listIdx).size()) {
+                int nextValue = lists.get(listIdx).get(elemIdx + 1);
+                heap.offer(new int[]{nextValue, listIdx, elemIdx + 1});
+            }
+        }
+
+        return result;
+    }
+
+
     public static void main(String[] args) {
         Heap heap = new Heap();
         int[] nums = { 3, 2, 1, 5, 6, 4 };
