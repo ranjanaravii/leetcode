@@ -117,7 +117,18 @@ public class StringQuestions {
         return result.toString();
     }
 
+    public int numWaterBottles(int numBottles, int numExchange) {
+        int totalDrank = numBottles;
+        int empty = numBottles;
 
+        while (empty >= numExchange) {
+            int newBottles = empty / numExchange;
+            totalDrank += newBottles;
+            empty = empty % numExchange + newBottles;
+        }
+
+        return totalDrank;
+    }
 
     public static void main(String[] args) {
         System.out.println(sortVowels("lEetcOde"));
