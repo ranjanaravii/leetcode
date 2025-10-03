@@ -322,6 +322,32 @@ public class Heap {
         return result;
     }
 
+    public int nthUglyNumber(int n) {
+        PriorityQueue<Long> minHeap = new PriorityQueue<>();
+        Set<Long> seen = new HashSet<>();
+
+        minHeap.offer(1L);
+        seen.add(1L);
+
+        int[] factors = {2, 3, 5};
+        long ugly = 1;
+
+        for (int i = 0; i < n; i++) {
+            ugly = minHeap.poll();
+
+            for (int factor : factors) {
+                long newUgly = ugly * factor;
+                if (!seen.contains(newUgly)) {
+                    minHeap.offer(newUgly);
+                    seen.add(newUgly);
+                }
+            }
+        }
+
+        return (int) ugly;
+    }
+}
+
 
     public static void main(String[] args) {
         Heap heap = new Heap();
