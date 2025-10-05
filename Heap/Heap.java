@@ -346,7 +346,6 @@ public class Heap {
 
         return (int) ugly;
     }
-}
 
 
     public static void main(String[] args) {
