@@ -347,6 +347,30 @@ public class Heap {
         return (int) ugly;
     }
 
+    public int maxProduct(int[] nums) {
+        int[] sortedDesc = Arrays.stream(nums)
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .mapToInt(Integer::intValue)
+                .toArray();
+        return ((sortedDesc[0] - 1) * (sortedDesc[1] - 1));
+
+//        Arrays.sort(nums);
+//        int x = nums[nums.length - 1];
+//        int y = nums[nums.length - 2];
+//        return (x - 1) * (y - 1);
+    }
+
+    public int maxProduct2(int[] nums) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        for (int num : nums) {
+            maxHeap.offer(num);
+        }
+        int x = maxHeap.poll();
+        int y = maxHeap.poll();
+        return (x - 1) * (y - 1);
+    }
+
 
     public static void main(String[] args) {
         Heap heap = new Heap();
