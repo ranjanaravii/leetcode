@@ -322,6 +322,70 @@ public class Heap {
         return result;
     }
 
+    public int nthUglyNumber(int n) {
+        PriorityQueue<Long> minHeap = new PriorityQueue<>();
+        Set<Long> seen = new HashSet<>();
+
+        minHeap.offer(1L);
+        seen.add(1L);
+
+        int[] factors = {2, 3, 5};
+        long ugly = 1;
+
+        for (int i = 0; i < n; i++) {
+            ugly = minHeap.poll();
+
+            for (int factor : factors) {
+                long newUgly = ugly * factor;
+                if (!seen.contains(newUgly)) {
+                    minHeap.offer(newUgly);
+                    seen.add(newUgly);
+                }
+            }
+        }
+
+        return (int) ugly;
+    }
+
+    public int maxProduct(int[] nums) {
+        int[] sortedDesc = Arrays.stream(nums)
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .mapToInt(Integer::intValue)
+                .toArray();
+        return ((sortedDesc[0] - 1) * (sortedDesc[1] - 1));
+
+//        Arrays.sort(nums);
+//        int x = nums[nums.length - 1];
+//        int y = nums[nums.length - 2];
+//        return (x - 1) * (y - 1);
+    }
+
+    public int maxProduct2(int[] nums) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        for (int num : nums) {
+            maxHeap.offer(num);
+        }
+        int x = maxHeap.poll();
+        int y = maxHeap.poll();
+        return (x - 1) * (y - 1);
+    }
+
+    public int[] maxSubsequence(int[] nums, int k) {
+        int[][] temp = new int[nums.length][2];
+        for (int i = 0; i < nums.length; i++) {
+            temp[i] = new int[]{nums[i], i};
+        }
+        Arrays.sort(temp, (a, b) -> b[0] - a[0]);
+        Arrays.sort(temp, 0, k, (a, b) -> a[1] - b[1]);
+
+        int[] res = new int[k];
+        for (int i = 0; i < k; i++) {
+            res[i] = temp[i][0];
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         Heap heap = new Heap();
