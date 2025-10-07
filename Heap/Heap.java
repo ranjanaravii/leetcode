@@ -407,7 +407,6 @@ public class Heap {
         return result;
     }
 
-
     public static void main(String[] args) {
         Heap heap = new Heap();
         int[] nums = { 3, 2, 1, 5, 6, 4 };
