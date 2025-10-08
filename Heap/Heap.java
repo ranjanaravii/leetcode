@@ -407,6 +407,61 @@ public class Heap {
         return result;
     }
 
+    public int largestInteger(int num) {
+        char[] digits = String.valueOf(num).toCharArray();
+
+        // Max-heaps for odd and even digits
+        PriorityQueue<Integer> evenHeap = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> oddHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        // Step 1: Fill heaps
+        for (char c : digits) {
+            int d = c - '0';
+            if (d % 2 == 0) evenHeap.offer(d);
+            else oddHeap.offer(d);
+        }
+
+        // Step 2: Rebuild the largest possible number
+        StringBuilder sb = new StringBuilder();
+        for (char c : digits) {
+            int d = c - '0';
+            if (d % 2 == 0)
+                sb.append(evenHeap.poll());
+            else
+                sb.append(oddHeap.poll());
+        }
+
+        return Integer.parseInt(sb.toString());
+    }
+
+
+    private static class Node {
+        int i, j, sum;
+        public Node(int i, int j, int sum) {
+            this.i = i;
+            this.j = j;
+            this.sum = sum;
+        }
+    }
+
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        PriorityQueue<Node> minHeap = new PriorityQueue<>((a, b) -> a.sum - b.sum);
+        List<List<Integer>> res = new ArrayList<>();
+        if (nums1.length == 0 || nums2.length == 0 || k == 0)
+            return res;
+        for (int i = 0; i < Math.min(nums1.length, k); i++) {
+            minHeap.offer(new Node(i, 0, nums1[i] + nums2[0]));
+        }
+        while (!minHeap.isEmpty() && res.size() < k) {
+            Node node = minHeap.poll();
+            res.add(List.of(nums1[node.i], nums2[node.j]));
+            if (node.j + 1 < nums2.length) {
+                minHeap.offer(new Node(node.i, node.j + 1, nums1[node.i] + nums2[node.j + 1]));
+            }
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         Heap heap = new Heap();
