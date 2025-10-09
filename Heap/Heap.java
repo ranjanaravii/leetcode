@@ -463,6 +463,28 @@ public class Heap {
     }
 
 
+    public List<List<Integer>> kSmallestPairs2(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(nums1.length == 0 || nums2.length == 0 || k == 0) return result;
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> nums1[a[0]] + nums2[a[1]]));
+        // Each element: [i, j] => nums1[i], nums2[j]
+        for (int i = 0; i < Math.min(nums1.length, k); i++) {
+            pq.offer(new int[]{i, 0});
+        }
+
+        while (!pq.isEmpty() && result.size() < k) {
+            int[] pair = pq.poll();
+            int i = pair[0], j = pair[1];
+            result.add(Arrays.asList(nums1[i], nums2[j]));
+            if (j + 1 < nums2.length) {
+                pq.offer(new int[]{i, j + 1});
+            }
+        }
+        return result;
+    }
+
+
     public static void main(String[] args) {
         Heap heap = new Heap();
         int[] nums = { 3, 2, 1, 5, 6, 4 };
