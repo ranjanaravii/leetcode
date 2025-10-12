@@ -243,6 +243,7 @@ public class Heap {
         return res.next;
     }
 
+
     public ListNode mergeKLists(ListNode[] lists) {
         if (lists == null || lists.length == 0) {
             return null;
@@ -288,6 +289,7 @@ public class Heap {
         return dummy.next;
     }
 
+    /*************************************************************************************************/
 
     public List<Integer> mergeKLists(List<List<Integer>> lists) {
         if (lists == null || lists.isEmpty()) {
@@ -322,6 +324,8 @@ public class Heap {
         return result;
     }
 
+    /*************************************************************************************************/
+
     public int nthUglyNumber(int n) {
         PriorityQueue<Long> minHeap = new PriorityQueue<>();
         Set<Long> seen = new HashSet<>();
@@ -347,6 +351,8 @@ public class Heap {
         return (int) ugly;
     }
 
+    /*************************************************************************************************/
+
     public int maxProduct(int[] nums) {
         int[] sortedDesc = Arrays.stream(nums)
                 .boxed()
@@ -370,6 +376,8 @@ public class Heap {
         int y = maxHeap.poll();
         return (x - 1) * (y - 1);
     }
+
+    /*************************************************************************************************/
 
     public int[] maxSubsequence(int[] nums, int k) {
         int[][] temp = new int[nums.length][2];
@@ -407,6 +415,8 @@ public class Heap {
         return result;
     }
 
+    /*************************************************************************************************/
+
     public int largestInteger(int num) {
         char[] digits = String.valueOf(num).toCharArray();
 
@@ -434,6 +444,7 @@ public class Heap {
         return Integer.parseInt(sb.toString());
     }
 
+    /*************************************************************************************************/
 
     private static class Node {
         int i, j, sum;
@@ -484,12 +495,59 @@ public class Heap {
         return result;
     }
 
+    /*************************************************************************************************/
+
+    public int kthSmallest(int[][] matrix, int k) {
+        int n = matrix.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+
+        // insert first row; value, row, column
+        for (int r = 0; r < n; r++) {
+            pq.offer(new int[]{matrix[r][0], r, 0});
+        }
+        while (k > 0) {
+            int[] x = pq.poll();
+            assert x != null;
+            int r = x[1], c = x[2];
+            if (c + 1 < n) {
+                pq.offer(new int[]{matrix[r][c + 1], r, c + 1});
+            }
+            k -= 1;
+        }
+        assert pq.peek() != null;
+        return pq.peek()[0];
+    }
+
+    /*************************************************************************************************/
+
+    public String frequencySort(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : s.toCharArray())
+            map.put(c, map.getOrDefault(c, 0) + 1);
+
+        List<Character> [] bucket = new List[s.length() + 1];
+        for (char key : map.keySet()) {
+            int frequency = map.get(key);
+            if (bucket[frequency] == null) bucket[frequency] = new ArrayList<>();
+            bucket[frequency].add(key);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int pos = bucket.length - 1; pos >= 0; pos--)
+            if (bucket[pos] != null)
+                for (char c : bucket[pos])
+                    sb.append(String.valueOf(c).repeat(pos));
+
+        return sb.toString();
+    }
+
 
     public static void main(String[] args) {
         Heap heap = new Heap();
         int[] nums = { 3, 2, 1, 5, 6, 4 };
         int k = 2;
-        System.out.println(heap.findKthLargest(nums, k));
+      //  System.out.println(heap.findKthLargest(nums, k));
+        System.out.println(heap.frequencySort("tree"));
     }
 
 }
