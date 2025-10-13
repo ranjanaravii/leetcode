@@ -541,6 +541,40 @@ public class Heap {
         return sb.toString();
     }
 
+    public static class WordFrequency {
+        int freq;
+        String word;
+        public WordFrequency(int freq, String word) {
+            this.freq = freq;
+            this.word = word;
+        }
+    }
+
+    public List<String> topKFrequent(String[] words, int k) {
+        Map<String, Integer> freqMap = new HashMap<>();
+        for (String word : words) {
+            freqMap.put(word, freqMap.getOrDefault(word, 0) + 1);
+        }
+
+        PriorityQueue<WordFrequency> pq = new PriorityQueue<>((a, b) -> {
+            if (a.freq == b.freq) {
+                return a.word.compareTo(b.word); // smaller lexicographically first
+            }
+            return Integer.compare(b.freq, a.freq); // higher freq first
+        });
+
+        for (Map.Entry<String, Integer> entry : freqMap.entrySet()) {
+            pq.offer(new WordFrequency(entry.getValue(), entry.getKey()));
+        }
+
+        List<String> result = new ArrayList<>();
+        while (k-- > 0 && !pq.isEmpty()) {
+            result.add(pq.poll().word);
+        }
+
+        return result;
+    }
+
 
     public static void main(String[] args) {
         Heap heap = new Heap();
