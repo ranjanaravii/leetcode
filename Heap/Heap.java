@@ -1,6 +1,7 @@
 package Heap;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Heap {
 
@@ -541,6 +542,64 @@ public class Heap {
         return sb.toString();
     }
 
+    public static class WordFrequency {
+        int freq;
+        String word;
+        public WordFrequency(int freq, String word) {
+            this.freq = freq;
+            this.word = word;
+        }
+    }
+
+    public List<String> topKFrequent(String[] words, int k) {
+        Map<String, Integer> freqMap = new HashMap<>();
+        for (String word : words) {
+            freqMap.put(word, freqMap.getOrDefault(word, 0) + 1);
+        }
+
+        PriorityQueue<WordFrequency> pq = new PriorityQueue<>((a, b) -> {
+            if (a.freq == b.freq) {
+                return a.word.compareTo(b.word); // smaller lexicographically first
+            }
+            return Integer.compare(b.freq, a.freq); // higher freq first
+        });
+
+        for (Map.Entry<String, Integer> entry : freqMap.entrySet()) {
+            pq.offer(new WordFrequency(entry.getValue(), entry.getKey()));
+        }
+
+        List<String> result = new ArrayList<>();
+        while (k-- > 0 && !pq.isEmpty()) {
+            result.add(pq.poll().word);
+        }
+
+        return result;
+    }
+
+    public int[] getFinalState(int[] nums, int k, int multiplier) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
+            int valueComparison = Integer.compare(a[0], b[0]);
+            if (valueComparison == 0) {
+                return Integer.compare(a[1], b[1]);
+            }
+            return valueComparison;
+        });
+        for (int i = 0; i < nums.length; i++) {
+            pq.offer(new int[] { nums[i], i });
+        }
+
+        while (k-- > 0) {
+            int[] curr = pq.poll();
+            curr[0] *= multiplier;
+            pq.offer(curr);
+        }
+
+        int[] result = new int[nums.length];
+        for (int[] entry : pq) {
+            result[entry[1]] = entry[0];
+        }
+        return result;
+    }
 
     public static void main(String[] args) {
         Heap heap = new Heap();
