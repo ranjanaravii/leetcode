@@ -1,6 +1,7 @@
 package Heap;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Heap {
 
@@ -575,6 +576,30 @@ public class Heap {
         return result;
     }
 
+    public int[] getFinalState(int[] nums, int k, int multiplier) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
+            int valueComparison = Integer.compare(a[0], b[0]);
+            if (valueComparison == 0) {
+                return Integer.compare(a[1], b[1]);
+            }
+            return valueComparison;
+        });
+        for (int i = 0; i < nums.length; i++) {
+            pq.offer(new int[] { nums[i], i });
+        }
+
+        while (k-- > 0) {
+            int[] curr = pq.poll();
+            curr[0] *= multiplier;
+            pq.offer(curr);
+        }
+
+        int[] result = new int[nums.length];
+        for (int[] entry : pq) {
+            result[entry[1]] = entry[0];
+        }
+        return result;
+    }
 
     public static void main(String[] args) {
         Heap heap = new Heap();
