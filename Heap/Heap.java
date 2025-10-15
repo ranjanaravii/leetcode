@@ -601,6 +601,26 @@ public class Heap {
         return result;
     }
 
+    public int[] rearrangeBarcodes(int[] barcodes) {
+        Map<Integer, Integer> mp = new HashMap<>();
+        for (int b : barcodes) {
+            mp.put(b, mp.getOrDefault(b, 0) + 1);
+        }
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(mp.entrySet());
+        list.sort(Map.Entry.<Integer, Integer>comparingByValue().reversed());
+        int len = barcodes.length, i = 0;
+        int[] res = new int[len];
+        for (Map.Entry<Integer, Integer> entry : list) {
+            int times = entry.getValue();
+            while (times-- > 0) {
+                res[i] = entry.getKey();
+                i += 2;
+                if (i >= len) i = 1;
+            }
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         Heap heap = new Heap();
         int[] nums = { 3, 2, 1, 5, 6, 4 };
