@@ -621,6 +621,30 @@ public class Heap {
         return res;
     }
 
+    public int minSetSize(int[] arr) {
+        // Step 1: Count frequency of each element
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int x : arr) {
+            count.put(x, count.getOrDefault(x, 0) + 1);
+        }
+
+        // Step 2: Add frequencies to a max heap
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        maxHeap.addAll(count.values());
+
+        // Step 3: Remove largest frequencies until we remove half the array
+        int removed = 0;
+        int ans = 0;
+        int half = arr.length / 2;
+
+        while (removed < half) {
+            removed += maxHeap.poll(); // remove largest frequency
+            ans++;
+        }
+
+        return ans;
+    }
+
     public static void main(String[] args) {
         Heap heap = new Heap();
         int[] nums = { 3, 2, 1, 5, 6, 4 };
