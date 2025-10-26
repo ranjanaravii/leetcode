@@ -161,14 +161,11 @@ public class Heap {
         for (int i = 0; i < nums.length; i++) {
             if (i == 0) {
                 result[pair[i][1]] = "Gold Medal";
-            }
-            else if (i == 1) {
+            } else if (i == 1) {
                 result[pair[i][1]] = "Silver Medal";
-            }
-            else if (i == 2) {
+            } else if (i == 2) {
                 result[pair[i][1]] = "Bronze Medal";
-            }
-            else {
+            } else {
                 result[pair[i][1]] = (i + 1) + "";
             }
         }
@@ -183,7 +180,7 @@ public class Heap {
         PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[0] - a[0]);
 
         for (int i = 0; i < n; i++) {
-            pq.offer(new int[]{nums[i], i});
+            pq.offer(new int[] { nums[i], i });
         }
 
         int rank = 1;
@@ -191,10 +188,14 @@ public class Heap {
             int[] top = pq.poll();
             int idx = top[1];
 
-            if (rank == 1) result[idx] = "Gold Medal";
-            else if (rank == 2) result[idx] = "Silver Medal";
-            else if (rank == 3) result[idx] = "Bronze Medal";
-            else result[idx] = String.valueOf(rank);
+            if (rank == 1)
+                result[idx] = "Gold Medal";
+            else if (rank == 2)
+                result[idx] = "Silver Medal";
+            else if (rank == 3)
+                result[idx] = "Bronze Medal";
+            else
+                result[idx] = String.valueOf(rank);
 
             rank++;
         }
@@ -214,7 +215,7 @@ public class Heap {
                     soldiers += 1;
                 }
             }
-            heap.add(new int[]{soldiers, i});
+            heap.add(new int[] { soldiers, i });
         }
         int[] res = new int[k];
         for (int i = 0; i < k; i++) {
@@ -243,7 +244,6 @@ public class Heap {
         }
         return res.next;
     }
-
 
     public ListNode mergeKLists(ListNode[] lists) {
         if (lists == null || lists.length == 0) {
@@ -305,7 +305,7 @@ public class Heap {
         PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
         for (int i = 0; i < lists.size(); i++) {
             if (lists.get(i) != null && !lists.get(i).isEmpty()) {
-                heap.offer(new int[]{lists.get(i).get(0), i, 0});
+                heap.offer(new int[] { lists.get(i).get(0), i, 0 });
             }
         }
 
@@ -318,7 +318,7 @@ public class Heap {
 
             if (elemIdx + 1 < lists.get(listIdx).size()) {
                 int nextValue = lists.get(listIdx).get(elemIdx + 1);
-                heap.offer(new int[]{nextValue, listIdx, elemIdx + 1});
+                heap.offer(new int[] { nextValue, listIdx, elemIdx + 1 });
             }
         }
 
@@ -334,7 +334,7 @@ public class Heap {
         minHeap.offer(1L);
         seen.add(1L);
 
-        int[] factors = {2, 3, 5};
+        int[] factors = { 2, 3, 5 };
         long ugly = 1;
 
         for (int i = 0; i < n; i++) {
@@ -362,10 +362,10 @@ public class Heap {
                 .toArray();
         return ((sortedDesc[0] - 1) * (sortedDesc[1] - 1));
 
-//        Arrays.sort(nums);
-//        int x = nums[nums.length - 1];
-//        int y = nums[nums.length - 2];
-//        return (x - 1) * (y - 1);
+        // Arrays.sort(nums);
+        // int x = nums[nums.length - 1];
+        // int y = nums[nums.length - 2];
+        // return (x - 1) * (y - 1);
     }
 
     public int maxProduct2(int[] nums) {
@@ -383,7 +383,7 @@ public class Heap {
     public int[] maxSubsequence(int[] nums, int k) {
         int[][] temp = new int[nums.length][2];
         for (int i = 0; i < nums.length; i++) {
-            temp[i] = new int[]{nums[i], i};
+            temp[i] = new int[] { nums[i], i };
         }
         Arrays.sort(temp, (a, b) -> b[0] - a[0]);
         Arrays.sort(temp, 0, k, (a, b) -> a[1] - b[1]);
@@ -399,8 +399,8 @@ public class Heap {
         PriorityQueue<int[]> minHeap = new PriorityQueue<>(
                 (a, b) -> a[0] - b[0]);
 
-        for(int i = 0; i < nums.length; i++) {
-            minHeap.offer(new int[]{nums[i], i});
+        for (int i = 0; i < nums.length; i++) {
+            minHeap.offer(new int[] { nums[i], i });
             if (minHeap.size() > k) {
                 minHeap.poll();
             }
@@ -428,8 +428,10 @@ public class Heap {
         // Step 1: Fill heaps
         for (char c : digits) {
             int d = c - '0';
-            if (d % 2 == 0) evenHeap.offer(d);
-            else oddHeap.offer(d);
+            if (d % 2 == 0)
+                evenHeap.offer(d);
+            else
+                oddHeap.offer(d);
         }
 
         // Step 2: Rebuild the largest possible number
@@ -449,6 +451,7 @@ public class Heap {
 
     private static class Node {
         int i, j, sum;
+
         public Node(int i, int j, int sum) {
             this.i = i;
             this.j = j;
@@ -474,15 +477,15 @@ public class Heap {
         return res;
     }
 
-
     public List<List<Integer>> kSmallestPairs2(int[] nums1, int[] nums2, int k) {
         List<List<Integer>> result = new ArrayList<>();
-        if(nums1.length == 0 || nums2.length == 0 || k == 0) return result;
+        if (nums1.length == 0 || nums2.length == 0 || k == 0)
+            return result;
 
         PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> nums1[a[0]] + nums2[a[1]]));
         // Each element: [i, j] => nums1[i], nums2[j]
         for (int i = 0; i < Math.min(nums1.length, k); i++) {
-            pq.offer(new int[]{i, 0});
+            pq.offer(new int[] { i, 0 });
         }
 
         while (!pq.isEmpty() && result.size() < k) {
@@ -490,7 +493,7 @@ public class Heap {
             int i = pair[0], j = pair[1];
             result.add(Arrays.asList(nums1[i], nums2[j]));
             if (j + 1 < nums2.length) {
-                pq.offer(new int[]{i, j + 1});
+                pq.offer(new int[] { i, j + 1 });
             }
         }
         return result;
@@ -504,14 +507,14 @@ public class Heap {
 
         // insert first row; value, row, column
         for (int r = 0; r < n; r++) {
-            pq.offer(new int[]{matrix[r][0], r, 0});
+            pq.offer(new int[] { matrix[r][0], r, 0 });
         }
         while (k > 0) {
             int[] x = pq.poll();
             assert x != null;
             int r = x[1], c = x[2];
             if (c + 1 < n) {
-                pq.offer(new int[]{matrix[r][c + 1], r, c + 1});
+                pq.offer(new int[] { matrix[r][c + 1], r, c + 1 });
             }
             k -= 1;
         }
@@ -526,10 +529,11 @@ public class Heap {
         for (char c : s.toCharArray())
             map.put(c, map.getOrDefault(c, 0) + 1);
 
-        List<Character> [] bucket = new List[s.length() + 1];
+        List<Character>[] bucket = new List[s.length() + 1];
         for (char key : map.keySet()) {
             int frequency = map.get(key);
-            if (bucket[frequency] == null) bucket[frequency] = new ArrayList<>();
+            if (bucket[frequency] == null)
+                bucket[frequency] = new ArrayList<>();
             bucket[frequency].add(key);
         }
 
@@ -545,6 +549,7 @@ public class Heap {
     public static class WordFrequency {
         int freq;
         String word;
+
         public WordFrequency(int freq, String word) {
             this.freq = freq;
             this.word = word;
@@ -615,7 +620,8 @@ public class Heap {
             while (times-- > 0) {
                 res[i] = entry.getKey();
                 i += 2;
-                if (i >= len) i = 1;
+                if (i >= len)
+                    i = 1;
             }
         }
         return res;
@@ -642,6 +648,35 @@ public class Heap {
             ans++;
         }
 
+        return ans;
+    }
+
+    public int deleteGreatestValue(int[][] grid) {
+        int ans = 0;
+        for (int[] row : grid) {
+            Arrays.sort(row);
+        }
+        for (int i = 0; i < grid[0].length; i++) {
+            int max = 0;
+            for (int[] row : grid) {
+                max = Math.max(max, row[i]);
+            }
+            ans += max;
+        }
+        return ans;
+    }
+
+    public int deleteGreatestValue2(int[][] grid) {
+        int ans = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for (int[] row : grid) {
+            for (int num : row) {
+                pq.offer(num);
+            }
+        }
+        while (!pq.isEmpty()) {
+            ans += pq.poll();
+        }
         return ans;
     }
 
