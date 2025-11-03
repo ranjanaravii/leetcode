@@ -680,6 +680,25 @@ public class Heap {
         return ans;
     }
 
+    public int countValidSelections(int[] nums) {
+        int n = nums.length;
+        int totalSum = Arrays.stream(nums).sum();
+        int leftSum = 0, validCount = 0;
+
+        for (int i = 0; i < n; i++) {
+            int rightSum = totalSum - leftSum - nums[i];
+            if (nums[i] == 0) {
+                int diff = Math.abs(leftSum - rightSum);
+                if (leftSum == rightSum) validCount += 2;
+                else if (diff == 1) validCount += 1;
+            }
+
+            leftSum += nums[i];
+        }
+
+        return validCount;
+    }
+
     public static void main(String[] args) {
         Heap heap = new Heap();
         int[] nums = { 3, 2, 1, 5, 6, 4 };
