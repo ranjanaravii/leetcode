@@ -699,6 +699,21 @@ public class Heap {
         return validCount;
     }
 
+    public boolean carPooling(int[][] trips, int capacity) {
+        int[] tripLength = new int[1001];
+        for (int[] trip : trips) {
+            tripLength[trip[1]] += trip[0];
+            tripLength[trip[2]] -= trip[0];
+        }
+        int load = 0;
+        for (int i = 0; i < 1001; i++){
+            load += tripLength[i];
+            if(load > capacity) return false;
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
         Heap heap = new Heap();
         int[] nums = { 3, 2, 1, 5, 6, 4 };
