@@ -1,5 +1,10 @@
 package Array;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class ArraysProblem {
     public int[] findDiagonalOrder(int[][] mat) {
         if (mat == null || mat.length == 0)
@@ -52,5 +57,32 @@ public class ArraysProblem {
         }
 
         return maxArea;
+    }
+
+    public List<Integer> majorityElement(int[] nums) {
+        int n = nums.length;
+        int count = 0;
+        int candidate = 0;
+        Set<Integer> ans = new HashSet<>();
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+                count = 1;
+            }
+            if (num == candidate) {
+                count += 1;
+            } else {
+                count -= 1;
+            }
+            if (count > n/3) {
+                ans.add(num);
+            }
+        }
+        return ans.stream().toList();
+    }
+
+    public static void main(String[] args) {
+        ArraysProblem arraysProblem = new ArraysProblem();
+        System.out.println(arraysProblem.majorityElement(new int[]{3,2,3}));
     }
 }
