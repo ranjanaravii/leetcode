@@ -1,9 +1,6 @@
 package Array;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ArraysProblem {
     public int[] findDiagonalOrder(int[][] mat) {
@@ -81,8 +78,42 @@ public class ArraysProblem {
         return ans.stream().toList();
     }
 
+    public int hIndex(int[] citations) {
+        Arrays.sort(citations);
+        Map<Integer, Integer> mp = new HashMap<>();
+        int n = citations.length;
+        for (int i = 0; i < n/2; i++) {
+            int temp = citations[i];
+            citations[i] = citations[n - i - 1];
+            citations[n - i - 1] = temp;
+        }
+        int hIndex = citations[0];
+        for (int i = 0; i < n; i++) {
+            if (citations[i] >= i + 1) {
+                hIndex = i + 1;
+            }
+        }
+        return hIndex;
+    }
+
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+        for (int i = 0; i < n; i++) {
+            int totalFuel = 0;
+            int stop = 0; int j = i;
+            while (stop < n) {
+                totalFuel += gas[j % n] - cost[j % n];
+                stop += 1;
+                j += 1;
+            }
+            if (stop == n && totalFuel >= 0) return i;
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         ArraysProblem arraysProblem = new ArraysProblem();
-        System.out.println(arraysProblem.majorityElement(new int[]{3,2,3}));
+        System.out.println(arraysProblem.canCompleteCircuit(new int[]{1,2,3,4,5}, new int[]{3,4,5,1,2}));
+       // System.out.println(arraysProblem.majorityElement(new int[]{3,2,3}));
     }
 }
