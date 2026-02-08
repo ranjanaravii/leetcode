@@ -171,7 +171,45 @@ public class StringQuestions {
         return true;
     }
 
+    static boolean nonDigit(char ch) {
+        if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
+            return true;
+        }
+        if (ch == ' ' || ch == '.' || ch == '-' || ch == '+') {
+            return true;
+        }
+        return false;
+    }
+    public static int myAtoi(String s) {
+        if (s.isEmpty()) return 0;
+        s = s.trim();
+        if (s.charAt(0) == '+') {
+            s = s.substring(1);
+        }
+        boolean isNegative = false;
+        if (nonDigit(s.charAt(0)) && (s.charAt(0) != '-')) {
+            return 0;
+        }
+        if (s.charAt(0) == '-') {
+            s = s.substring(1);
+            isNegative = true;
+        }
+        int j = 0;
+        int res = 0;
+        while (j < s.length() && !nonDigit(s.charAt(j))) {
+            int a = s.charAt(j) - '0';
+            res = res + a;
+            res = res * 10;
+            j += 1;
+        }
+        res = res == 0 ? 0 : isNegative ? -res / 10 : res / 10;
+        int result = (int) Math.max(Integer.MIN_VALUE,
+                Math.min(Integer.MAX_VALUE, res));
+
+        return result;
+    }
+
     public static void main(String[] args) {
-        System.out.println(reverseWords("the sky is blue"));
+        System.out.println(myAtoi("+1"));
     }
 }
