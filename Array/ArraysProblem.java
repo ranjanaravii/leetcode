@@ -111,9 +111,34 @@ public class ArraysProblem {
         return -1;
     }
 
+    public List<Integer> mostVisited(int n, int[] rounds) {
+
+        List<Integer> result = new ArrayList<>();
+
+        int start = rounds[0];
+        int end = rounds[rounds.length - 1];
+
+        if (start <= end) {
+            for (int i = start; i <= end; i++) {
+                result.add(i);
+            }
+        }
+        else {
+            for (int i = 1; i <= end; i++) {
+                result.add(i);
+            }
+            for (int i = start; i <= n; i++) {
+                result.add(i);
+            }
+        }
+
+        return result;
+    }
+
     public static void main(String[] args) {
         ArraysProblem arraysProblem = new ArraysProblem();
-        System.out.println(arraysProblem.canCompleteCircuit(new int[]{1,2,3,4,5}, new int[]{3,4,5,1,2}));
+        System.out.println(arraysProblem.mostVisited(5, new int[]{5,3,1,2}));
+        //System.out.println(arraysProblem.canCompleteCircuit(new int[]{1,2,3,4,5}, new int[]{3,4,5,1,2}));
        // System.out.println(arraysProblem.majorityElement(new int[]{3,2,3}));
     }
 }
