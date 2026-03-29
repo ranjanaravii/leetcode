@@ -3,20 +3,7 @@ package stack;
 class MinStack {
     private Node head;
 
-    private static class Node {
-        int val;
-        int min;
-        Node next;
-
-        private Node (int val, int min, Node next) {
-            this.val = val;
-            this.min = min;
-            this.next = next;
-        }
-    }
-
     public MinStack() {
-
     }
 
     public void push(int val) {
@@ -39,4 +26,16 @@ class MinStack {
         return head.min;
     }
 
+
+    private static class Node {
+        int val;
+        int min;
+        Node next;
+
+        private Node (int val, int min, Node next) {
+            this.val = val;
+            this.min = min;
+            this.next = next;
+        }
+    }
 }
