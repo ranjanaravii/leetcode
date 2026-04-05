@@ -135,9 +135,76 @@ public class ArraysProblem {
         return result;
     }
 
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        boolean firstColZero = false;
+
+        // Step 1: Mark rows and cols
+        for (int i = 0; i < m; i++) {
+            if (matrix[i][0] == 0) {
+                firstColZero = true;
+            }
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;  // mark row
+                    matrix[0][j] = 0;  // mark column
+                }
+            }
+        }
+
+        // Step 2: Fill matrix (excluding first row & col)
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        // Step 3: Handle first row
+        if (matrix[0][0] == 0) {
+            for (int j = 0; j < n; j++) {
+                matrix[0][j] = 0;
+            }
+        }
+
+        // Step 4: Handle first column
+        if (firstColZero) {
+            for (int i = 0; i < m; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] answer = new int[n];
+
+        // Step 1: Calculate the left product for each element
+        answer[0] = 1;
+        for (int i = 1; i < n; i++) {
+            answer[i] = nums[i - 1] * answer[i - 1];
+        }
+
+        // Step 2: Calculate the right product and the final product
+        int R = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            answer[i] = answer[i] * R;
+            R *= nums[i];
+        }
+
+        return answer;
+    }
+
     public static void main(String[] args) {
         ArraysProblem arraysProblem = new ArraysProblem();
-        System.out.println(arraysProblem.mostVisited(5, new int[]{5,3,1,2}));
+        //System.out.println(arraysProblem.mostVisited(5, new int[]{5,3,1,2}));
+//        int[][] arr = new int[][]{{1, 1, 1}, {1, 0, 1},{1, 1, 1}};
+//        arraysProblem.setZeroes(arr);
+//        System.out.println(Arrays.deepToString(arr));
+        System.out.println(Arrays.toString(arraysProblem.productExceptSelf(new int[]{1,2,3,4})));
         //System.out.println(arraysProblem.canCompleteCircuit(new int[]{1,2,3,4,5}, new int[]{3,4,5,1,2}));
        // System.out.println(arraysProblem.majorityElement(new int[]{3,2,3}));
     }

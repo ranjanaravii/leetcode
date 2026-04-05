@@ -1,5 +1,6 @@
 package DP;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -58,10 +59,45 @@ public class DynamicProgramming {
         }
         return water;
     }
+
+    public int maxTwoEvents(int[][] events) {
+        int n = events.length;
+        Arrays.sort(events, (a, b) -> a[0] - b[0]);
+        int[][] dp = new int[n][3];
+        for (int[] d : dp) {
+            Arrays.fill(d, -1);
+        }
+        return findEvents(events, 0, 0, n, dp);
+    }
+
+    private int findEvents(int[][] events, int idx, int cnt, int n, int[][] dp) {
+        if (cnt == 2 || idx >= n) return 0;
+        if (dp[idx][cnt] != -1) return dp[idx][cnt];
+
+        int end = events[idx][1];
+        int low = idx + 1, high = n - 1;
+        while (low < high) {
+            int mid = low + (high - low)/2;
+
+            if (events[mid][0] > end) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        int include = events[idx][2] + ((low < n && events[low][0] > end)
+                ? findEvents(events, low, cnt + 1, n, dp)
+                : 0);
+        int exclude = findEvents(events, idx + 1, cnt, n, dp);
+        dp[idx][cnt] = Math.max(include, exclude);
+        return dp[idx][cnt];
+    }
+
     public static void main(String[] args) {
         DynamicProgramming dp = new DynamicProgramming();
         int[] height1 = {0,1,0,2,1,0,1,3,2,1,2,1};
-        System.out.println("Trapped water: " + dp.trap(height1)); // Output: 6
+        System.out.println("Number of events " + dp.maxTwoEvents(new int[][]{{1,3,2},{4,5,2},{2,4,3}})); // Output: 6
+       // System.out.println("Trapped water: " + dp.trap(height1)); // Output: 6
 
       //  int[] height2 = {4,2,0,3,2,5};
       //  System.out.println("Trapped water: " + dp.trap(height2)); // Output: 9
