@@ -1,5 +1,7 @@
 package DP;
 
+import Graph.Pair;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -91,6 +93,22 @@ public class DynamicProgramming {
         int exclude = findEvents(events, idx + 1, cnt, n, dp);
         dp[idx][cnt] = Math.max(include, exclude);
         return dp[idx][cnt];
+    }
+
+    public int maxTwoEventsUsingHeap(int[][] events) {
+        Arrays.sort(events, (a, b) -> a[0] - b[0]);
+        // [endTime, value]
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        int maxSum = 0, maxVal = 0;
+        for (int[] event : events) {
+            while (!pq.isEmpty() && pq.peek()[0] < event[0]) {
+                maxVal = Math.max(maxVal, pq.peek()[1]);
+                pq.poll();
+            }
+            maxSum = Math.max(maxSum, maxVal + event[2]);
+            pq.offer(new int[]{event[1], event[2]});
+        }
+        return maxSum;
     }
 
     public static void main(String[] args) {
