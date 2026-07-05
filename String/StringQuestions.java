@@ -73,6 +73,8 @@ public class StringQuestions {
         return maxFreqVowel + maxFreqConsonant;
     }
 
+    /**********************************************************************************************/
+
     public String fractionToDecimal(int numerator, int denominator) {
         if (numerator == 0) return "0";
 
@@ -117,6 +119,8 @@ public class StringQuestions {
         return result.toString();
     }
 
+    /**********************************************************************************************/
+
     public int numWaterBottles(int numBottles, int numExchange) {
         int totalDrank = numBottles;
         int empty = numBottles;
@@ -130,6 +134,8 @@ public class StringQuestions {
         return totalDrank;
     }
 
+    /**********************************************************************************************/
+
     public static String reverseWords(String s) {
         StringBuilder ans = new StringBuilder();
         String[] str = s.split("\\s+");
@@ -139,6 +145,8 @@ public class StringQuestions {
         }
         return ans.toString().trim();
     }
+
+    /**********************************************************************************************/
 
     public boolean wordPattern(String pattern, String s) {
         String[] words = s.split(" ");
@@ -171,6 +179,8 @@ public class StringQuestions {
         return true;
     }
 
+    /**********************************************************************************************/
+
     static boolean nonDigit(char ch) {
         if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
             return true;
@@ -180,6 +190,9 @@ public class StringQuestions {
         }
         return false;
     }
+
+    /**********************************************************************************************/
+
     public static int myAtoi(String s) {
         if (s.isEmpty()) return 0;
         s = s.trim();
@@ -209,7 +222,39 @@ public class StringQuestions {
         return result;
     }
 
+    /**********************************************************************************************/
+
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) return false;
+
+        int[] s1Count = new int[26];
+        int[] s2Count = new int[26];
+
+        for (int i = 0; i < s1.length(); i++) {
+            s1Count[s1.charAt(i) - 'a']++;
+            s2Count[s2.charAt(i) - 'a']++;
+        }
+
+        for (int i = 0; i < s2.length() - s1.length(); i++) {
+            if (matches(s1Count, s2Count)) return true;
+
+            s2Count[s2.charAt(i + s1.length()) - 'a']++;
+            s2Count[s2.charAt(i) - 'a']--;
+        }
+
+        return matches(s1Count, s2Count);
+    }
+
+    private boolean matches(int[] s1Count, int[] s2Count) {
+        for (int i = 0; i < 26; i++) {
+            if (s1Count[i] != s2Count[i]) return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        System.out.println(myAtoi("+1"));
+        StringQuestions questions = new StringQuestions();
+        System.out.println(questions.checkInclusion("ab", "eidbaooo"));
+        //System.out.println(myAtoi("+1"));
     }
 }
